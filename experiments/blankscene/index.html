@@ -40,6 +40,8 @@
 
     init();
     animate();
+    // move();
+
 
     function init() {
       renderer = new THREE.WebGLRenderer();
@@ -51,8 +53,8 @@
 
       scene = new THREE.Scene();
 
-      camera = new THREE.PerspectiveCamera(90, 0, 0.001, 700);
-      camera.position.set(0, 20, 0);
+      camera = new THREE.PerspectiveCamera(40, 900, 0.001, 100000);
+      camera.position.set(0, 2, -10);
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
@@ -107,11 +109,25 @@
         map: texture
       });
 
+      var material2 = new THREE.MeshPhongMaterial({
+        color: 0xed1818,
+        specular: 0xffffff,
+        shininess: 20,
+        shading: THREE.FlatShading,
+        map: texture
+      });
+
       var geometry = new THREE.PlaneGeometry(1000, 1000);
+      var geometry2 = new THREE.PlaneGeometry(2000, 6000);
 
       var mesh = new THREE.Mesh(geometry, material);
+      var mesh2 = new THREE.Mesh(geometry2, material2);
+      mesh2.position.set(20,20,20);
       mesh.rotation.x = -Math.PI / 2;
+      mesh2.rotation.y = -Math.PI / 1;
       scene.add(mesh);
+      scene.add(mesh2);
+
 
       var rectLength = 10, rectWidth = 5;
 
@@ -123,7 +139,9 @@
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
-
+camera.translateZ(5)
+camera.translateY(1)
+camera.translateX(50)
 
     }
 
@@ -151,17 +169,32 @@
       effect.render(scene, camera);
     }
 
-    function animate(t) {
+    function animate() {
+
       requestAnimationFrame(animate);
 
-      // camera.position.x += 1;
+      // camera.position.x += .001;
+      // camera.position.z += 1;
+      // camera.position.y -= 1;
       // cube2.position.x += 1;
       // cube2.scale.x += 0.01;
       // cube2.scale.y += 0.01;
+      // camera.lookAt(0,0,90)
+if(clock.elapsedTime < 10)
+{
+  // camera.position.set(0,90,0)
+camera.position.x += .1
+// debugger
+}
+else
+{
 
-      light.intensity += 0.01;
+light.intensity += 0.01;
+camera.position.x -= 2
+}
 
 
+// console.log(clock)
       update(clock.getDelta());
       render(clock.getDelta());
     }
