@@ -28,7 +28,7 @@ THREEx.ProceduralCity	= function(){
 	var cityGeometry= new THREE.Geometry();
 	for( var i = 0; i < 10000; i ++ ){
 		// put a random position
-		buildingMesh.position.x	= Math.floor( Math.random() * 200 - 100 ) * 10;
+		buildingMesh.position.x	= Math.abs((Math.floor( Math.random() * 200 - 100 ) * 10)) + 55;
 		buildingMesh.position.z	= Math.floor( Math.random() * 200 - 100 ) * 10;
 		// put a random rotation
 		// buildingMesh.rotation.y	= Math.random()*Math.PI*2;
