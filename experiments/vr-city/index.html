@@ -112,6 +112,13 @@
 
         }
 
+        //generate bomb
+        var bombCube = new THREE.BoxGeometry(5, 5, 5);
+        var bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
+        var bomb = new THREE.Mesh(bombCube, bombMaterial);
+        bomb.position.set(0, 100, 0);
+        scene.add(bomb)
+
       }
     }
 
@@ -143,7 +150,7 @@
 
 
       var city  = new THREEx.ProceduralCity()
-      scene.add(city) 
+      scene.add(city)
 
       var light2 = new THREE.HemisphereLight( 0xfffff0, 0x101020, 1.25 );
       light2.position.set( 0.75, 1, 0.25 );
