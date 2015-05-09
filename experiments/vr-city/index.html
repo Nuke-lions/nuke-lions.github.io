@@ -40,7 +40,8 @@
 
     var cube2;
 
-    var bombCube, bombMaterial, bomb
+    var bombCube, bombMaterial, bomb;
+    var fogMaterial, fogGeometry, fog;
 
     var light;
     var ambiLight;
@@ -64,7 +65,7 @@
       effect = new THREE.StereoEffect(renderer);
 
       scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
+      // scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 
       camera = new THREE.PerspectiveCamera(90, 0, 0.001, 300);
       camera.position.set(0, 10, 55);
@@ -118,6 +119,11 @@
         bombCube = new THREE.BoxGeometry(5, 5, 5);
         bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
         bomb = new THREE.Mesh(bombCube, bombMaterial);
+
+        // //generate fog
+        fogGeometry = new THREE.TorusGeometry( 10, 2, 150, 100 );
+        fogMaterial = new THREE.MeshBasicMaterial({ color: 0xF2F200 });
+        fog = new THREE.Mesh( fogGeometry, fogMaterial  );
 
       }
     }
@@ -266,6 +272,13 @@
       bomb.position.set(-100, 500, 0);
       scene.add(bomb)
 
+      //set fog position
+      fog.position.set(-100, 100, 0);
+      fog.translateZ(10)
+      scene.add( fog );
+
+
+
     function animate(t) {
       requestAnimationFrame(animate);
 
@@ -277,6 +290,8 @@
       // light.intensity += 0.05;
 
       bomb.position.y -= 4.8;
+
+
 
 
       update(clock.getDelta());
