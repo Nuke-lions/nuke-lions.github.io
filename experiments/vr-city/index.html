@@ -40,6 +40,8 @@
 
     var cube2;
 
+    var bombCube, bombMaterial, bomb
+
     var light;
     var ambiLight;
 
@@ -113,11 +115,9 @@
         }
 
         //generate bomb
-        var bombCube = new THREE.BoxGeometry(5, 5, 5);
-        var bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
-        var bomb = new THREE.Mesh(bombCube, bombMaterial);
-        bomb.position.set(0, 100, 0);
-        scene.add(bomb)
+        bombCube = new THREE.BoxGeometry(5, 5, 5);
+        bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
+        bomb = new THREE.Mesh(bombCube, bombMaterial);
 
       }
     }
@@ -262,6 +262,10 @@
       effect.render(scene, camera);
     }
 
+      // set bomb position
+      bomb.position.set(-100, 500, 0);
+      scene.add(bomb)
+
     function animate(t) {
       requestAnimationFrame(animate);
 
@@ -271,6 +275,8 @@
       // cube2.scale.y += 0.01;
 
       // light.intensity += 0.05;
+
+      bomb.position.y -= 4.8;
 
 
       update(clock.getDelta());
