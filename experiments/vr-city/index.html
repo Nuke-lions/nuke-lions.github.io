@@ -32,6 +32,7 @@
   <script src="OrbitControls.js"></script>
   <script src='threex.proceduralcity.js'></script>
 
+
   <script>
     var camera, scene, renderer;
     var effect, controls;
@@ -44,8 +45,13 @@
 
     var clock = new THREE.Clock();
 
+    var sky, sunSphere;
+
     init();
     animate();
+
+
+
 
     function init() {
       renderer = new THREE.WebGLRenderer();
@@ -59,8 +65,11 @@
       scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 
       camera = new THREE.PerspectiveCamera(90, 0, 0.001, 300);
-      camera.position.set(0, 10, 0);
+      // camera.position.set(0, 10, 75);
+      camera.position.set(0, 100, 0);
+
       scene.add(camera);
+
 
       controls = new THREE.OrbitControls(camera, element);
       controls.rotateUp(Math.PI / 4);
@@ -72,14 +81,66 @@
       controls.noZoom = true;
       controls.noPan = true;
 
-      // var geometry2 = new THREE.BoxGeometry( 10, 10, 10 );
-      // var material2 = new THREE.MeshBasicMaterial( { color: 0x27586b } ); // blue cube
-      // cube2 = new THREE.Mesh( geometry2, material2);
-      // cube2.position.set( 50,20,10);
-      // scene.add( cube2 );
+        var geometry = new THREE.PlaneGeometry( 100, 100 );
 
-      // var ambiLight = new THREE.AmbientLight( 0x404040 ); // soft white light
-      // scene.add( ambiLight );
+        var texture = new THREE.Texture( generateTexture() );
+        texture.needsUpdate = true;
+
+        for (var k=-15; k <15; k++){
+
+        for (var j = 0; j < 15; j ++){
+
+        for ( var i = 0; i < 15; i ++ ) {
+
+          var material = new THREE.MeshBasicMaterial( {
+            color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
+            map: texture,
+            depthTest: false,
+            depthWrite: false,
+            transparent: true
+          } );
+
+          var mesh = new THREE.Mesh( geometry, material );
+
+          mesh.position.z = k*100;
+
+          mesh.position.y = i * 0.25;
+          mesh.position.x = -95 + (100*-j);
+          mesh.rotation.x = - Math.PI / 2;
+
+          scene.add( mesh );
+
+        }
+
+      }
+    }
+
+
+
+        function generateTexture() {
+
+        var canvas = document.createElement( 'canvas' );
+        canvas.width = 512;
+        canvas.height = 512;
+
+        var context = canvas.getContext( '2d' );
+
+        for ( var i = 0; i < 20000; i ++ ) {
+
+          context.fillStyle = 'hsl(0,0%,' + ( Math.random() * 50 + 50 ) + '%)';
+          context.beginPath();
+          context.arc( Math.random() * canvas.width, Math.random() * canvas.height, Math.random() + 0.15, 0, Math.PI * 2, true );
+          context.fill();
+
+        }
+
+        context.globalAlpha = 0.075;
+        context.globalCompositeOperation = 'lighter';
+
+        return canvas;
+
+      }
+
 
       var city  = new THREEx.ProceduralCity()
       scene.add(city) 
@@ -197,7 +258,7 @@
     function animate(t) {
       requestAnimationFrame(animate);
 
-      camera.position.x += 0.05;
+      // camera.position.x += 0.05;s
       // cube2.position.x += 1;
       // cube2.scale.x += 0.01;
       // cube2.scale.y += 0.01;
