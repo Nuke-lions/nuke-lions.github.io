@@ -67,9 +67,9 @@
   var camera, scene, renderer;
   var effect, controls;
   var element, container;
-  var first_time=50
-  var second_time=51
-  var third_time=52
+  var first_time=53
+  var second_time=52
+  var third_time=51
   var cube2;
   var fallout=[]
   var light;
@@ -540,20 +540,9 @@ for (var k=-15; k <15; k++){
 
        else if((timer>=45)&&(timer<62)){
 
-
-
-        // bomb.position.y -= 4.8;
-
-
-        // light.intensity += 0.01;
         camera.position.x -= 2
         camera.position.y=7
-        // console.log(camera.position.y)
-        // if(Math.floor(camera.position.x)%2==0){
-        //   camera.position.y+=.4
-        // }else {
-        //   camera.position.y-=.4
-        // }
+
       }else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
         // light.intensity += 0.01;
         camera.position.x -= 0
@@ -567,12 +556,10 @@ for (var k=-15; k <15; k++){
         camera.position.y -= 0
         camera.position.x -= 0
       }
-      // if(timer==54){
-      //   mushCloudBaseGrow = true
-      // }
+
 
       // bomb and fog appearance
-      if(timer>45)
+      if(timer>41)
       {
         bomb.position.y -= 4.8;
       }
