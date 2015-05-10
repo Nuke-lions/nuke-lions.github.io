@@ -174,7 +174,7 @@
 
 
       var city  = new THREEx.ProceduralCity()
-      scene.add(city) 
+      scene.add(city)
 
       var light2 = new THREE.HemisphereLight( 0xfffff0, 0x101020, 1.25 );
       light2.position.set( 0.75, 1, 0.25 );
@@ -313,37 +313,69 @@
 
 
       var timer = clock.getElapsedTime();
-
-      if (timer > 5){
-
-      if (mushCloudBaseGrow === true){
-      mushroomCloudBase.scale.y += .15
-      mushroomCloudBase.scale.x += .005
-      mushroomCloudBase.scale.z += .005
+      if((timer < 30)&&(timer>0)){
+        camera.position.x += .1
+        camera.position.y=7
+          if(Math.floor(camera.position.x)%2==0){
+            camera.position.y+=.2
+          }else {
+            camera.position.y-=.2
+          }
+      }else if((clock.elapsedTime>=30)&&(clock.elapsedTime<40)){
+        // light.intensity += 0.01;
+        camera.position.x -= 2
+        camera.position.y=7
+        // console.log(camera.position.y)
+        if(Math.floor(camera.position.x)%2==0){
+          camera.position.y+=.4
+        }else {
+          camera.position.y-=.4
+        }
+      }else if((clock.elapsedTime>=40)&&(clock.elapsedTime<21)){
+        // light.intensity += 0.01;
+        camera.position.x -= 0
+        camera.position.y -= .01
+        if(Math.floor(clock.elapsedTime*16)%2==0){
+            camera.position.y+=.9
+          }else {
+            camera.position.y-=.9
+          }
+      } else {
+        // light.intensity += 0.01;
+        camera.position.y -= 0
+        camera.position.x -= 0
       }
 
-      if (mushroomCloudBase.scale.y > 20 && mushCloudBaseGrow === true){
-        mushroomCloudTop.scale.x += .05
-        mushroomCloudTop.scale.y += .01
-        mushroomCloudTop.scale.z += .05
-        mushroomCloudBase.scale.y += .08
-        mushroomCloudBase.scale.x += .001
-        mushroomCloudBase.scale.z += .001
-        scene.add( mushroomCloudTop );
-      }
+    //   if (timer > 30){
 
-      if (mushroomCloudBase.scale.y > 34.8 && mushCloudBaseGrow === true){
-        mushCloudBaseGrow = false;
-      }
+    //   if (mushCloudBaseGrow === true){
+    //   mushroomCloudBase.scale.y += .15
+    //   mushroomCloudBase.scale.x += .005
+    //   mushroomCloudBase.scale.z += .005
+    //   }
 
-      if (mushCloudBaseGrow === false){
-      mushroomCloudTop.scale.x += .05
-      mushroomCloudTop.scale.y += .01
-      mushroomCloudTop.scale.z += .05
-      mushroomCloudTopLight.intensity += 1
-      }
+    //   if (mushroomCloudBase.scale.y > 20 && mushCloudBaseGrow === true){
+    //     mushroomCloudTop.scale.x += .05
+    //     mushroomCloudTop.scale.y += .01
+    //     mushroomCloudTop.scale.z += .05
+    //     mushroomCloudBase.scale.y += .08
+    //     mushroomCloudBase.scale.x += .001
+    //     mushroomCloudBase.scale.z += .001
+    //     scene.add( mushroomCloudTop );
+    //   }
 
-    }
+    //   if (mushroomCloudBase.scale.y > 34.8 && mushCloudBaseGrow === true){
+    //     mushCloudBaseGrow = false;
+    //   }
+
+    //   if (mushCloudBaseGrow === false){
+    //   mushroomCloudTop.scale.x += .05
+    //   mushroomCloudTop.scale.y += .01
+    //   mushroomCloudTop.scale.z += .05
+    //   mushroomCloudTopLight.intensity += 1
+    //   }
+
+    // }
 
       // camera.position.x += 0.05;
       // cube2.position.x += 1;
