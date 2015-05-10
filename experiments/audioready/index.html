@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Cardboard Example</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<head>
+  <title>Cardboard Example</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-    <style>
-      body {
-        margin: 0px;
-        overflow: hidden;
-        background-color: #D8E7FF;
-        margin-left: 45%;
-        margin-top: 25%;
-        margin-right: 50%;
-      }
-      #example {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 1;
-        background-color: #D8E7FF;
-      }
-      #loadMsg {
-        position: absolute;
-        z-index: 2;
-        color: white;
-        font-size: 3em;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        color: white;
-      }
-      #goButton {
-        background-color: blue;
-      }
-    </style>
-  </head>
-  <body>
+  <style>
+  body {
+    margin: 0px;
+    overflow: hidden;
+    background-color: #D8E7FF;
+    margin-left: 45%;
+    margin-top: 25%;
+    margin-right: 50%;
+  }
+  #example {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #D8E7FF;
+  }
+  #loadMsg {
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 3em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+  }
+  #goButton {
+    background-color: blue;
+  }
+  </style>
+</head>
+<body>
   <div id="example"></div>
 
   <div class="container-fluid">
@@ -64,55 +64,57 @@
 
 
   <script>
-    var camera, scene, renderer;
-    var effect, controls;
-    var element, container;
+  var camera, scene, renderer;
+  var effect, controls;
+  var element, container;
 
-    var cube2;
+  var cube2;
 
-    var light;
-    var ambiLight;
+  var light;
+  var ambiLight;
 
-    var clock = new THREE.Clock(false);
+  var clock = new THREE.Clock(false);
+  var bombCube, bombMaterial, bomb;
+  var fogMaterial, fogGeometry, fog;
 
-    var sky, sunSphere;
+  var sky, sunSphere;
 
-    var mushroomCloudBase;
-    var mushroomCloudTop;
-    var mushCloudBaseGrow = true;
-    var mushroomCloudTopLight;
+  var mushroomCloudBase;
+  var mushroomCloudTop;
+  var mushCloudBaseGrow = true;
+  var mushroomCloudTopLight;
 
-    init();
-    animate();
+  init();
+  animate();
 
-    var dotsInterval = window.setInterval(function() {
-      if($('#loading_dots').text().length < 3) {
-        $('#loading_dots').text($('#loading_dots').text() + '.');
-      }
-      else {
-        $('#loading_dots').text('');
-      }
-    }, 500);
-
-    function startButton(){
-      clock.start();
-      source.start(0);
-      $('#goButton').remove();
+  var dotsInterval = window.setInterval(function() {
+    if($('#loading_dots').text().length < 3) {
+      $('#loading_dots').text($('#loading_dots').text() + '.');
     }
+    else {
+      $('#loading_dots').text('');
+    }
+  }, 500);
 
-    function init() {
-      renderer = new THREE.WebGLRenderer();
-      element = renderer.domElement;
-      container = document.getElementById('example');
-      container.appendChild(element);
+  function startButton(){
+    clock.start();
+    source.start(0);
+    $('#goButton').remove();
+  }
 
-      effect = new THREE.StereoEffect(renderer);
+  function init() {
+    renderer = new THREE.WebGLRenderer();
+    element = renderer.domElement;
+    container = document.getElementById('example');
+    container.appendChild(element);
 
-      scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
+    effect = new THREE.StereoEffect(renderer);
 
-      camera = new THREE.PerspectiveCamera(90, 0, 0.001, 300);
-      camera.position.set(-35, 10, 10);
+    scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
+
+    camera = new THREE.PerspectiveCamera(90, 0, 0.001, 1000);
+    camera.position.set(-35, 10, 10);
       // camera.position.set(0, 100, 0);
 
       scene.add(camera);
@@ -124,7 +126,7 @@
         camera.position.x + 0.1,
         camera.position.y,
         camera.position.z
-      );
+        );
       controls.noZoom = true;
       controls.noPan = true;
 
@@ -133,24 +135,52 @@
       texture.needsUpdate = true;
 
       for (var k=-15; k <15; k++){
-      for (var j = 0; j < 15; j ++){
-      for ( var i = 0; i < 15; i ++ ) {
-        var material = new THREE.MeshBasicMaterial( {
-          color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
-          map: texture,
-          depthTest: false,
-          depthWrite: false,
-          transparent: true
-        } );
+        for (var j = 0; j < 15; j ++){
+          for ( var i = 0; i < 15; i ++ ) {
+            var material = new THREE.MeshBasicMaterial( {
+              color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
+              map: texture,
+              depthTest: false,
+              depthWrite: false,
+              transparent: true
+            } );
 
-        var mesh = new THREE.Mesh( geometry, material );
-        mesh.position.z = k*100;
-        mesh.position.y = i * 0.25;
-        mesh.position.x = -95 + (100*-j);
-        mesh.rotation.x = - Math.PI / 2;
-        scene.add( mesh );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.position.z = k*100;
+            mesh.position.y = i * 0.25;
+            mesh.position.x = -95 + (100*-j);
+            mesh.rotation.x = - Math.PI / 2;
+            scene.add( mesh );
           }
         }
+
+
+       //generate bomb
+        bombCube = new THREE.BoxGeometry(5, 5, 5);
+        bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
+        bomb = new THREE.Mesh(bombCube, bombMaterial);
+
+        // //generate fog
+        fogGeometry = new THREE.CylinderGeometry(5,20,5,50);
+        fogMaterial = new THREE.MeshLambertMaterial({ color: 0xC9C9C5});
+        fog = new THREE.Mesh( fogGeometry, fogMaterial  );
+        fogMaterial.transparent=true;
+        fogMaterial.opacity=.5
+
+        fogGeometryTop = new THREE.CylinderGeometry(5,20,5,50);
+        fogMaterialTop = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
+        fogTop = new THREE.Mesh( fogGeometryTop, fogMaterialTop  );
+        fogMaterialTop.transparent=true;
+        fogMaterialTop.opacity=.5
+
+        fogGeometryBottom = new THREE.CylinderGeometry(5,20,5,50);
+        fogMaterialBottom = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
+        fogBottom = new THREE.Mesh( fogGeometryBottom, fogMaterialBottom  );
+        fogMaterialBottom.transparent=true;
+        fogMaterialBottom.opacity=.5
+
+
+
       }
 
       function generateTexture() {
@@ -308,20 +338,44 @@
       effect.render(scene, camera);
     }
 
+
+      // set bomb position
+      bomb.position.set(200, 1000, 200);
+      scene.add(bomb)
+
+      //set fog position
+      fog.position.set(200, 120, 200);
+      fogTop.position.set(200, 150, 200)
+      fogBottom.position.set(200, 90, 200)
+      // fog.translateZ(10)
+      // fog.rotation.y=45;
+      // fogTop.rotation.y=45;
+      scene.add( fog );
+      scene.add( fogTop );
+      scene.add( fogBottom );
+
+
+
+
+
     function animate(t) {
       requestAnimationFrame(animate);
 
 
       var timer = clock.getElapsedTime();
-      if((timer < 30)&&(timer>0)){
+      if((timer < 47)&&(timer>5)){
         camera.position.x += .1
         camera.position.y=7
-          if(Math.floor(camera.position.x)%2==0){
-            camera.position.y+=.2
-          }else {
-            camera.position.y-=.2
-          }
-      }else if((clock.elapsedTime>=30)&&(clock.elapsedTime<40)){
+        if(Math.floor(camera.position.x)%2==0){
+          camera.position.y+=.2
+        }else {
+          camera.position.y-=.2
+        }
+
+        if(timer>=47){
+           bomb.position.y -= 4.8;
+        }
+      }else if((clock.elapsedTime>=52)&&(clock.elapsedTime<62)){
         // light.intensity += 0.01;
         camera.position.x -= 2
         camera.position.y=7
@@ -331,51 +385,51 @@
         }else {
           camera.position.y-=.4
         }
-      }else if((clock.elapsedTime>=40)&&(clock.elapsedTime<21)){
+      }else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
         // light.intensity += 0.01;
         camera.position.x -= 0
         camera.position.y -= .01
         if(Math.floor(clock.elapsedTime*16)%2==0){
-            camera.position.y+=.9
-          }else {
-            camera.position.y-=.9
-          }
+          camera.position.y+=.9
+        }else {
+          camera.position.y-=.9
+        }
       } else {
-        // light.intensity += 0.01;
         camera.position.y -= 0
         camera.position.x -= 0
       }
 
-    //   if (timer > 30){
+      if (timer > 51){
 
-    //   if (mushCloudBaseGrow === true){
-    //   mushroomCloudBase.scale.y += .15
-    //   mushroomCloudBase.scale.x += .005
-    //   mushroomCloudBase.scale.z += .005
-    //   }
+        light.intensity += 0.01;
+        if (mushCloudBaseGrow === true){
+          mushroomCloudBase.scale.y += .15
+          mushroomCloudBase.scale.x += .005
+          mushroomCloudBase.scale.z += .005
+        }
 
-    //   if (mushroomCloudBase.scale.y > 20 && mushCloudBaseGrow === true){
-    //     mushroomCloudTop.scale.x += .05
-    //     mushroomCloudTop.scale.y += .01
-    //     mushroomCloudTop.scale.z += .05
-    //     mushroomCloudBase.scale.y += .08
-    //     mushroomCloudBase.scale.x += .001
-    //     mushroomCloudBase.scale.z += .001
-    //     scene.add( mushroomCloudTop );
-    //   }
+        if (mushroomCloudBase.scale.y > 20 && mushCloudBaseGrow === true){
+          mushroomCloudTop.scale.x += .05
+          mushroomCloudTop.scale.y += .01
+          mushroomCloudTop.scale.z += .05
+          mushroomCloudBase.scale.y += .08
+          mushroomCloudBase.scale.x += .001
+          mushroomCloudBase.scale.z += .001
+          scene.add( mushroomCloudTop );
+        }
 
-    //   if (mushroomCloudBase.scale.y > 34.8 && mushCloudBaseGrow === true){
-    //     mushCloudBaseGrow = false;
-    //   }
+        if (mushroomCloudBase.scale.y > 34.8 && mushCloudBaseGrow === true){
+          mushCloudBaseGrow = false;
+        }
 
-    //   if (mushCloudBaseGrow === false){
-    //   mushroomCloudTop.scale.x += .05
-    //   mushroomCloudTop.scale.y += .01
-    //   mushroomCloudTop.scale.z += .05
-    //   mushroomCloudTopLight.intensity += 1
-    //   }
+        if (mushCloudBaseGrow === false){
+          mushroomCloudTop.scale.x += .05
+          mushroomCloudTop.scale.y += .01
+          mushroomCloudTop.scale.z += .05
+          mushroomCloudTopLight.intensity += 1
+        }
 
-    // }
+      }
 
       // camera.position.x += 0.05;
       // cube2.position.x += 1;
@@ -400,6 +454,6 @@
         container.webkitRequestFullscreen();
       }
     }
-  </script>
+    </script>
   </body>
-</html>
+  </html>
