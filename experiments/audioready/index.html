@@ -156,24 +156,24 @@
 
 
        //generate bomb
-        bombCube = new THREE.BoxGeometry(5, 5, 5);
-        bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
-        bomb = new THREE.Mesh(bombCube, bombMaterial);
+       bombCube = new THREE.BoxGeometry(50, 50, 50);
+       bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
+       bomb = new THREE.Mesh(bombCube, bombMaterial);
 
         // //generate fog
-        fogGeometry = new THREE.CylinderGeometry(5,20,5,50);
+        fogGeometry = new THREE.CylinderGeometry(20,10,5,50);
         fogMaterial = new THREE.MeshLambertMaterial({ color: 0xC9C9C5});
         fog = new THREE.Mesh( fogGeometry, fogMaterial  );
         fogMaterial.transparent=true;
         fogMaterial.opacity=.5
 
-        fogGeometryTop = new THREE.CylinderGeometry(5,20,5,50);
+        fogGeometryTop = new THREE.CylinderGeometry(20,10,5,50);
         fogMaterialTop = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
         fogTop = new THREE.Mesh( fogGeometryTop, fogMaterialTop  );
         fogMaterialTop.transparent=true;
         fogMaterialTop.opacity=.5
 
-        fogGeometryBottom = new THREE.CylinderGeometry(5,20,5,50);
+        fogGeometryBottom = new THREE.CylinderGeometry(20,10,5,50);
         fogMaterialBottom = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
         fogBottom = new THREE.Mesh( fogGeometryBottom, fogMaterialBottom  );
         fogMaterialBottom.transparent=true;
@@ -340,8 +340,8 @@
 
 
       // set bomb position
-      bomb.position.set(200, 1000, 200);
-      scene.add(bomb)
+      // bomb.position.set(200, 1000, 200);
+      // scene.add(bomb)
 
       //set fog position
       fog.position.set(200, 120, 200);
@@ -350,41 +350,99 @@
       // fog.translateZ(10)
       // fog.rotation.y=45;
       // fogTop.rotation.y=45;
-      scene.add( fog );
-      scene.add( fogTop );
-      scene.add( fogBottom );
+      // scene.add( fog );
+      // scene.add( fogTop );
+      // scene.add( fogBottom );
 
 
 
 
 
-    function animate(t) {
-      requestAnimationFrame(animate);
+      function animate(t) {
+        requestAnimationFrame(animate);
 
 
-      var timer = clock.getElapsedTime();
-      if((timer < 47)&&(timer>5)){
-        camera.position.x += .1
-        camera.position.y=7
-        if(Math.floor(camera.position.x)%2==0){
-          camera.position.y+=.2
-        }else {
-          camera.position.y-=.2
+        var timer = clock.getElapsedTime();
+        if((timer < 47)&&(timer>5)){
+          camera.position.x += .1
+          camera.position.y=7
+          if(Math.floor(camera.position.x)%2==0){
+            camera.position.y+=.2
+          }else {
+            camera.position.y-=.2
+          }
+
+
         }
 
-        if(timer>=47){
-           bomb.position.y -= 4.8;
+
+        // else if(timer > 47){
+        //     // scene.add( fog );
+        //     // scene.add( fogTop );
+        //     // scene.add( fogBottom );
+        //   // bomb.position.set(200, 700, 200);
+        //   // scene.add(bomb)
+        // }
+
+       //  else if(timer>=47){
+       //   bomb.position.y -= 4.8;
+       //   fog.scale.z +=.05
+       //   fog.scale.x +=.05
+
+       //   fogTop.scale.z +=.05
+       //   fogTop.scale.x +=.05
+
+       //   fogBottom.scale.z +=.05
+       //   fogBottom.scale.x +=.05
+       // }
+
+
+
+       else if((timer>=47)&&(timer<62)){
+
+        if(Math.floor(timer)==48)
+        {
+          scene.add( fogTop );
         }
-      }else if((clock.elapsedTime>=52)&&(clock.elapsedTime<62)){
-        // light.intensity += 0.01;
+        else if(timer>48)
+        {
+          fogTop.scale.z +=.07
+          fogTop.scale.x +=.07
+        }
+
+        if(Math.floor(timer)==49)
+        {
+          scene.add( fog );
+        }
+        if(timer>49)
+        {
+          fog.scale.z +=.05
+          fog.scale.x +=.05
+        }
+
+        if(Math.floor(timer)==50)
+        {
+          scene.add( fogBottom );
+        }
+        if(timer>50)
+        {
+          fogBottom.scale.z +=.02
+          fogBottom.scale.x +=.02
+        }
+
+
+        bomb.position.y -= 4.8;
+
+
+        light.intensity += 0.01;
         camera.position.x -= 2
         camera.position.y=7
         // console.log(camera.position.y)
-        if(Math.floor(camera.position.x)%2==0){
-          camera.position.y+=.4
-        }else {
-          camera.position.y-=.4
-        }
+        // if(Math.floor(camera.position.x)%2==0){
+        //   camera.position.y+=.4
+        // }else {
+        //   camera.position.y-=.4
+        // }
       }else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
         // light.intensity += 0.01;
         camera.position.x -= 0
@@ -398,8 +456,11 @@
         camera.position.y -= 0
         camera.position.x -= 0
       }
+      // if(timer==54){
+      //   mushCloudBaseGrow = true
+      // }
 
-      if (timer > 51){
+      if (timer > 54){
 
         light.intensity += 0.01;
         if (mushCloudBaseGrow === true){
