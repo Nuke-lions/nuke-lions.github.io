@@ -87,6 +87,7 @@
   var mushroomCloudTopLight;
   var loader = new THREE.JSONLoader();
   var meshCar;
+  var endGame = false;
 
   var container, stats;
   var camera, scene, particles, geometry, materials = [], parameters, i, h, color, sprite, size;
@@ -689,9 +690,20 @@ for (var k=-15; k <15; k++){
 
 
 
-render_particles();
+      render_particles();
+
+    if ((endGame === false)  && (timer > 120)){
+    endGame = true;
+    $("#loadMsg").append("<h1>THANKS FOR PLAYING :)</h1><br><button onclick='endButton()' id='goButton'>PLAY AGAIN!</button>");
+    }
+
+      
       update(clock.getDelta());
       render(clock.getDelta());
+    }
+
+    function endButton(){
+      location.reload();
     }
 
     function fullscreen() {
