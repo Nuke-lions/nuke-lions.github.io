@@ -278,33 +278,33 @@ for (var k=-15; k <15; k++){
 
           // Adding the car object
 
-          var carMaterial = new THREE.MeshLambertMaterial({
-            map: THREE.ImageUtils.loadTexture('images/gtare.jpg'),
-            colorAmbient: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-            colorDiffuse: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-            colorSpecular: [0.8999999761581421, 0.8999999761581421, 0.8999999761581421]
-          })
+          // var carMaterial = new THREE.MeshLambertMaterial({
+          //   map: THREE.ImageUtils.loadTexture('images/gtare.jpg'),
+          //   colorAmbient: [0.480000026226044, 0.480000026226044, 0.480000026226044],
+          //   colorDiffuse: [0.480000026226044, 0.480000026226044, 0.480000026226044],
+          //   colorSpecular: [0.8999999761581421, 0.8999999761581421, 0.8999999761581421]
+          // })
 
-          loader.load('car.js', function (geometry, materials) {
+          // loader.load('car.js', function (geometry, materials) {
 
-            meshCar = new THREE.Mesh(
-              geometry,
-              carMaterial
-            );
+          //   meshCar = new THREE.Mesh(
+          //     geometry,
+          //     carMaterial
+          //   );
 
-            meshCar.scale.x = 0.2;
-            meshCar.scale.y = 0.2;
-            meshCar.scale.z = 0.2;
-            meshCar.rotation.y = 0;
+          //   meshCar.scale.x = 0.2;
+          //   meshCar.scale.y = 0.2;
+          //   meshCar.scale.z = 0.2;
+          //   meshCar.rotation.y = 0;
 
-            meshCar.position.set(0,3,-130)
+          //   meshCar.position.set(0,3,-130)
 
-            meshCar.receiveShadow = true;
-            meshCar.castShadow = true;
+          //   meshCar.receiveShadow = true;
+          //   meshCar.castShadow = true;
 
-            scene.add(meshCar);
-            render();
-          });
+          //   scene.add(meshCar);
+          //   render();
+          // });
 
 
 
