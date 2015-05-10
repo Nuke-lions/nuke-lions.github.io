@@ -67,11 +67,11 @@
   var camera, scene, renderer;
   var effect, controls;
   var element, container;
-var first_time=50
-var second_time=51
-var third_time=52
+  var first_time=50
+  var second_time=51
+  var third_time=52
   var cube2;
-
+  var fallout=[]
   var light;
   var ambiLight;
 
@@ -87,6 +87,13 @@ var third_time=52
   var mushroomCloudTopLight;
   var loader = new THREE.JSONLoader();
   var meshCar;
+
+  var container, stats;
+  var camera, scene, particles, geometry, materials = [], parameters, i, h, color, sprite, size;
+  var mouseX = 0, mouseY = 0;
+
+  var windowHalfX = window.innerWidth / 2;
+  var windowHalfY = window.innerHeight / 2;
 
   init();
   animate();
@@ -107,10 +114,20 @@ var third_time=52
   }
 
   function init() {
+
+
+
+
+
     renderer = new THREE.WebGLRenderer();
     element = renderer.domElement;
     container = document.getElementById('example');
     container.appendChild(element);
+
+
+
+
+
 
     effect = new THREE.StereoEffect(renderer);
 
@@ -119,44 +136,93 @@ var third_time=52
 
     camera = new THREE.PerspectiveCamera(90, 0, 0.001, 1400);
     // camera.position.set(-35, 10, 10);
-      camera.position.set(0, 100, 0);
+
+      camera.position.set(-35, 10, 10);
 
       scene.add(camera);
 
 
-      controls = new THREE.OrbitControls(camera, element);
-      controls.rotateUp(Math.PI / 4);
-      controls.target.set(
-        camera.position.x + 0.1,
-        camera.position.y,
-        camera.position.z
-        );
-      controls.noZoom = true;
-      controls.noPan = true;
+//nuclear winter
+geometry = new THREE.Geometry();
+// geometry = new THREE.SphereGeometry();
 
-      var geometry = new THREE.PlaneGeometry( 100, 100 );
-      var texture = new THREE.Texture( generateTexture() );
-      texture.needsUpdate = true;
 
-      for (var k=-15; k <15; k++){
-        for (var j = 0; j < 15; j ++){
-          for ( var i = 0; i < 15; i ++ ) {
-            var material = new THREE.MeshBasicMaterial( {
-              color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
-              map: texture,
-              depthTest: false,
-              depthWrite: false,
-              transparent: true
-            } );
+for ( var i = 0; i < 2000; i ++ ) {
+  var vertex = new THREE.Vector3();
 
-            var mesh = new THREE.Mesh( geometry, material );
-            mesh.position.z = k*100;
-            mesh.position.y = i * 0.25;
-            mesh.position.x = -95 + (100*-j);
-            mesh.rotation.x = - Math.PI / 2;
-            scene.add( mesh );
-          }
-        }
+  vertex.x = Math.random() * 2000 - 1000;
+  vertex.y = Math.random() * 2000 - 1000;
+  vertex.z = Math.random() * 2000 - 1000;
+
+  geometry.vertices.push( vertex );
+  geometry.dynamic=true;
+}
+
+parameters = [
+[ [1, 1, 0.5], 5 ],
+[ [0.95, 1, 0.5], 4 ],
+[ [0.90, 1, 0.5], 3 ],
+[ [0.85, 1, 0.5], 2 ],
+[ [0.80, 1, 0.5], 1 ]
+];
+
+for ( i = 0; i < parameters.length; i ++ ) {
+
+  color = parameters[i][0];
+  size  = parameters[i][1];
+
+  materials[i] = new THREE.PointCloudMaterial( { size: size } );
+
+  particles = new THREE.PointCloud( geometry, materials[i] );
+
+  particles.rotation.x = Math.random() * 6;
+  particles.rotation.y = Math.random() * 6;
+  particles.rotation.z = Math.random() * 6;
+
+  fallout.push(particles)
+  // scene.add( particles );
+}
+
+
+
+//close nuclear winter
+
+
+
+
+controls = new THREE.OrbitControls(camera, element);
+controls.rotateUp(Math.PI / 4);
+controls.target.set(
+  camera.position.x + 0.1,
+  camera.position.y,
+  camera.position.z
+  );
+controls.noZoom = true;
+controls.noPan = true;
+
+var geometry = new THREE.PlaneGeometry( 100, 100 );
+var texture = new THREE.Texture( generateTexture() );
+texture.needsUpdate = true;
+
+for (var k=-15; k <15; k++){
+  for (var j = 0; j < 15; j ++){
+    for ( var i = 0; i < 15; i ++ ) {
+      var material = new THREE.MeshBasicMaterial( {
+        color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
+        map: texture,
+        depthTest: false,
+        depthWrite: false,
+        transparent: true
+      } );
+
+      var mesh = new THREE.Mesh( geometry, material );
+      mesh.position.z = k*100;
+      mesh.position.y = i * 0.25;
+      mesh.position.x = -95 + (100*-j);
+      mesh.rotation.x = - Math.PI / 2;
+      scene.add( mesh );
+    }
+  }
 
 
        //generate bomb
@@ -197,7 +263,7 @@ var third_time=52
         // skyS = new THREE.Mesh( skyGeo1, skybg);
         // skyS.position.set(0,10,-1000);
         // // scene.add(skyS);
-        
+
         // var skyGeo2 = new THREE.BoxGeometry(0.1,1000,10000);
         // // var skyMat2 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
         // skyW = new THREE.Mesh( skyGeo2, skybg);
@@ -437,9 +503,9 @@ var third_time=52
             camera.position.y-=.2
           }
 
-        if(Math.floor(timer)==45){
-          scene.add(bomb)
-        }
+          if(Math.floor(timer)==45){
+            scene.add(bomb)
+          }
         }
 
 
@@ -501,40 +567,40 @@ var third_time=52
       // }
 
       // bomb and fog appearance
-        if(timer>45)
-        {
-          bomb.position.y -= 4.8;
-        }
+      if(timer>45)
+      {
+        bomb.position.y -= 4.8;
+      }
 
-        if(Math.floor(timer)==first_time)
-        {
-          scene.add( fogTop );
-        }
-        else if(timer>first_time)
-        {
-          fogTop.scale.z +=.07
-          fogTop.scale.x +=.07
-        }
+      if(Math.floor(timer)==first_time)
+      {
+        scene.add( fogTop );
+      }
+      else if(timer>first_time)
+      {
+        fogTop.scale.z +=.07
+        fogTop.scale.x +=.07
+      }
 
-        if(Math.floor(timer)==second_time)
-        {
-          scene.add( fog );
-        }
-        if(timer>second_time)
-        {
-          fog.scale.z +=.05
-          fog.scale.x +=.05
-        }
+      if(Math.floor(timer)==second_time)
+      {
+        scene.add( fog );
+      }
+      if(timer>second_time)
+      {
+        fog.scale.z +=.05
+        fog.scale.x +=.05
+      }
 
-        if(Math.floor(timer)==third_time)
-        {
-          scene.add( fogBottom );
-        }
-        if(timer>third_time)
-        {
-          fogBottom.scale.z +=.02
-          fogBottom.scale.x +=.02
-        }
+      if(Math.floor(timer)==third_time)
+      {
+        scene.add( fogBottom );
+      }
+      if(timer>third_time)
+      {
+        fogBottom.scale.z +=.02
+        fogBottom.scale.x +=.02
+      }
 
 
 
@@ -543,7 +609,7 @@ var third_time=52
 
 
 
-        light.intensity += 1;
+        light.intensity += 3;
         if (mushCloudBaseGrow === true){
           mushroomCloudBase.scale.y += .15
           mushroomCloudBase.scale.x += .005
@@ -570,25 +636,60 @@ var third_time=52
           mushroomCloudTop.scale.z += .05
           mushroomCloudTopLight.intensity += 1
         }
+          // render()
 
-      }
+        }
 
-      if(Math.floor(timer)==64)
+        if(Math.floor(timer)==64)
         {
           // var nuke_light = new THREE.AmbientLight(0x404040)
           //       scene.add(nuke_light)
-                renderer.setClearColor(0xffffff, 1)
+          renderer.setClearColor(0xffffff, 1)
                 // nuke_light.intensity += .5;
         }
 
-      // camera.position.x += 0.05;
-      // cube2.position.x += 1;
-      // cube2.scale.x += 0.01;
-      // cube2.scale.y += 0.01;
+        if(Math.floor(timer)==64){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
 
-      // light.intensity += 0.05;
+      if(Math.floor(timer)==67){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
+
+            if(Math.floor(timer)==68){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
+
+            if(Math.floor(timer)==69){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
 
 
+
+render_particles();
       update(clock.getDelta());
       render(clock.getDelta());
     }
@@ -604,6 +705,37 @@ var third_time=52
         container.webkitRequestFullscreen();
       }
     }
-    </script>
-  </body>
-  </html>
+
+
+
+    function render_particles() {
+      var time = Date.now() * 0.00005;
+        // camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+        // camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+        // camera.lookAt( scene.position );
+// light.intensity+=1
+    for ( i = 0; i < fallout.length; i ++ ) {
+      var object = fallout[ i ];
+      if ( object instanceof THREE.PointCloud ) {
+        // object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        object.rotation.z = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        object.rotation.x = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+      }
+    }
+
+      for ( i = 0; i < materials.length; i ++ ) {
+
+          // color = parameters[i][0];
+
+          // h = ( 360 * ( color[0] + time ) % 360 ) / 360;
+          // materials[i].color.setHSL( h, color[1], color[2] );
+
+        }
+
+        // renderer.render( scene, camera );
+
+      }
+      </script>
+    </body>
+    </html>
