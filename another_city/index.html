@@ -32,7 +32,6 @@
   <script src="OrbitControls.js"></script>
   <script src='threex.proceduralcity.js'></script>
 
-
   <script>
     var camera, scene, renderer;
     var effect, controls;
@@ -40,21 +39,13 @@
 
     var cube2;
 
-    var bombCube, bombMaterial, bomb;
-    var fogMaterial, fogGeometry, fog;
-
     var light;
     var ambiLight;
 
     var clock = new THREE.Clock();
 
-    var sky, sunSphere;
-
     init();
     animate();
-
-
-
 
     function init() {
       renderer = new THREE.WebGLRenderer();
@@ -65,14 +56,11 @@
       effect = new THREE.StereoEffect(renderer);
 
       scene = new THREE.Scene();
-      // scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
+      scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 
       camera = new THREE.PerspectiveCamera(90, 0, 0.001, 300);
-      camera.position.set(0, 100, 55);
-      // camera.position.set(0, 80, 0);
-
+      camera.position.set(0, 5, 0);
       scene.add(camera);
-
 
       controls = new THREE.OrbitControls(camera, element);
       controls.rotateUp(Math.PI / 4);
@@ -84,108 +72,21 @@
       controls.noZoom = true;
       controls.noPan = true;
 
-        var geometry = new THREE.PlaneGeometry( 100, 100 );
+      // var geometry2 = new THREE.BoxGeometry( 10, 10, 10 );
+      // var material2 = new THREE.MeshBasicMaterial( { color: 0x27586b } ); // blue cube
+      // cube2 = new THREE.Mesh( geometry2, material2);
+      // cube2.position.set( 50,20,10);
+      // scene.add( cube2 );
 
-        var texture = new THREE.Texture( generateTexture() );
-        texture.needsUpdate = true;
-
-        for (var k=-15; k <15; k++){
-
-        for (var j = 0; j < 15; j ++){
-
-        for ( var i = 0; i < 15; i ++ ) {
-
-          var material = new THREE.MeshBasicMaterial( {
-            color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
-            map: texture,
-            depthTest: false,
-            depthWrite: false,
-            transparent: true
-          } );
-
-          var mesh = new THREE.Mesh( geometry, material );
-
-          mesh.position.z = k*100;
-
-          mesh.position.y = i * 0.25;
-          mesh.position.x = -95 + (100*-j);
-          mesh.rotation.x = - Math.PI / 2;
-
-          scene.add( mesh );
-
-        }
-
-        //generate bomb
-        bombCube = new THREE.BoxGeometry(5, 5, 5);
-        bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
-        bomb = new THREE.Mesh(bombCube, bombMaterial);
-
-        // //generate fog
-        fogGeometry = new THREE.CylinderGeometry(5,5,20,32);
-        fogMaterial = new THREE.MeshBasicMaterial({ color: 0xF2F200 });
-        fog = new THREE.Mesh( fogGeometry, fogMaterial  );
-
-      }
-    }
-
-
-
-        function generateTexture() {
-
-        var canvas = document.createElement( 'canvas' );
-        canvas.width = 512;
-        canvas.height = 512;
-
-        var context = canvas.getContext( '2d' );
-
-        for ( var i = 0; i < 20000; i ++ ) {
-
-          context.fillStyle = 'hsl(0,0%,' + ( Math.random() * 50 + 50 ) + '%)';
-          context.beginPath();
-          context.arc( Math.random() * canvas.width, Math.random() * canvas.height, Math.random() + 0.15, 0, Math.PI * 2, true );
-          context.fill();
-
-        }
-
-        context.globalAlpha = 0.075;
-        context.globalCompositeOperation = 'lighter';
-
-        return canvas;
-
-      }
-
+      // var ambiLight = new THREE.AmbientLight( 0x404040 ); // soft white light
+      // scene.add( ambiLight );
 
       var city  = new THREEx.ProceduralCity()
-      scene.add(city)
+      scene.add(city) 
 
       var light2 = new THREE.HemisphereLight( 0xfffff0, 0x101020, 1.25 );
       light2.position.set( 0.75, 1, 0.25 );
       scene.add( light2 );
-
-      var roadGeo = new THREE.BoxGeometry(50,0.1,1500);
-      var roadMat = new THREE.MeshBasicMaterial( { color: 0x383838 } );
-
-      var roadTexture = new THREE.MeshLambertMaterial({
-        map: THREE.ImageUtils.loadTexture('images/road1.jpg'),
-      });
-
-      var road = new THREE.Mesh( roadGeo, roadMat );
-      road.position.set(0,0,0);
-      scene.add( road );
-
-      var sidewalkGeo1 = new THREE.BoxGeometry(20,0.1,1500);
-      var sidewalkMat1 = new THREE.MeshBasicMaterial( { color: 0xCCCCCC } );
-      var sidewalk1 = new THREE.Mesh( sidewalkGeo1, sidewalkMat1);
-      sidewalk1.position.set(35,0,0);
-      scene.add(sidewalk1);
-
-      var sidewalkGeo2 = new THREE.BoxGeometry(20,0.1,1500);
-      var sidewalkMat2 = new THREE.MeshBasicMaterial( { color: 0xCCCCCC } );
-      var sidewalk2 = new THREE.Mesh( sidewalkGeo2, sidewalkMat2);
-      sidewalk2.position.set(-35,0,0);
-      scene.add(sidewalk2);
-
-
 
 
 
@@ -268,33 +169,15 @@
       effect.render(scene, camera);
     }
 
-      // set bomb position
-      bomb.position.set(-100, 500, 0);
-      scene.add(bomb)
-
-      //set fog position
-      fog.position.set(-100, 100, 0);
-      // fog.translateZ(10)
-      fog.rotation.y=45;
-      scene.add( fog );
-
-
-
     function animate(t) {
       requestAnimationFrame(animate);
 
-      // camera.position.x += 0.05;s
+      camera.position.x += 0.1;
       // cube2.position.x += 1;
       // cube2.scale.x += 0.01;
       // cube2.scale.y += 0.01;
 
       // light.intensity += 0.05;
-      // fog.radius +=2
-      bomb.position.y -= 4.8;
-      fog.scale.x +=2
-      // fog.scale.y +=.02
-
-
 
 
       update(clock.getDelta());
