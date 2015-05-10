@@ -342,7 +342,7 @@ var third_time=52
 
 
       // set bomb position
-      bomb.position.set(200, 600, 200);
+      bomb.position.set(200, 660, 200);
       // scene.add(bomb)
 
       //set fog position
@@ -405,6 +405,39 @@ var third_time=52
 
 
        else if((timer>=45)&&(timer<62)){
+
+
+
+        // bomb.position.y -= 4.8;
+
+
+        light.intensity += 0.01;
+        camera.position.x -= 2
+        camera.position.y=7
+        // console.log(camera.position.y)
+        // if(Math.floor(camera.position.x)%2==0){
+        //   camera.position.y+=.4
+        // }else {
+        //   camera.position.y-=.4
+        // }
+      }else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
+        // light.intensity += 0.01;
+        camera.position.x -= 0
+        camera.position.y -= .01
+        if(Math.floor(clock.elapsedTime*16)%2==0){
+          camera.position.y+=.9
+        }else {
+          camera.position.y-=.9
+        }
+      } else {
+        camera.position.y -= 0
+        camera.position.x -= 0
+      }
+      // if(timer==54){
+      //   mushCloudBaseGrow = true
+      // }
+
+      // bomb and fog appearance
         if(timer>45)
         {
           bomb.position.y -= 4.8;
@@ -441,38 +474,11 @@ var third_time=52
         }
 
 
-        // bomb.position.y -= 4.8;
 
-
-        light.intensity += 0.01;
-        camera.position.x -= 2
-        camera.position.y=7
-        // console.log(camera.position.y)
-        // if(Math.floor(camera.position.x)%2==0){
-        //   camera.position.y+=.4
-        // }else {
-        //   camera.position.y-=.4
-        // }
-      }else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
-        // light.intensity += 0.01;
-        camera.position.x -= 0
-        camera.position.y -= .01
-        if(Math.floor(clock.elapsedTime*16)%2==0){
-          camera.position.y+=.9
-        }else {
-          camera.position.y-=.9
-        }
-      } else {
-        camera.position.y -= 0
-        camera.position.x -= 0
-      }
-      // if(timer==54){
-      //   mushCloudBaseGrow = true
-      // }
 
       if (timer > 54){
 
-        light.intensity += 0.01;
+        light.intensity += 0.1;
         if (mushCloudBaseGrow === true){
           mushroomCloudBase.scale.y += .15
           mushroomCloudBase.scale.x += .005
