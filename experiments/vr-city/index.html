@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Cardboard Example</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <style>
-      body {
-        margin: 0px;
-        overflow: hidden;
-        background-color: #D8E7FF;
-      }
-      #example {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #D8E7FF;
-      }
+<head>
+  <title>Cardboard Example</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+  body {
+    margin: 0px;
+    overflow: hidden;
+    background-color: #D8E7FF;
+  }
+  #example {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #D8E7FF;
+  }
 /*      * {
         background-color: blue;
-      }*/
-    </style>
-  </head>
-  <body>
-    <div id="example"></div>
+        }*/
+        </style>
+      </head>
+      <body>
+        <div id="example"></div>
 
-  <script src="three.js"></script>
-  <script src="StereoEffect.js"></script>
-  <script src="DeviceOrientationControls.js"></script>
-  <script src="OrbitControls.js"></script>
-  <script src='threex.proceduralcity.js'></script>
-
-
-  <script>
-    var camera, scene, renderer;
-    var effect, controls;
-    var element, container;
-
-    var cube2;
-
-    var bombCube, bombMaterial, bomb;
-    var fogMaterial, fogGeometry, fog;
-
-    var light;
-    var ambiLight;
-
-    var clock = new THREE.Clock();
-
-    var sky, sunSphere;
-
-    init();
-    animate();
+        <script src="three.js"></script>
+        <script src="StereoEffect.js"></script>
+        <script src="DeviceOrientationControls.js"></script>
+        <script src="OrbitControls.js"></script>
+        <script src='threex.proceduralcity.js'></script>
 
 
+        <script>
+        var camera, scene, renderer;
+        var effect, controls;
+        var element, container;
+
+        var cube2;
+
+        var bombCube, bombMaterial, bomb;
+        var fogMaterial, fogGeometry, fog;
+
+        var light;
+        var ambiLight;
+
+        var clock = new THREE.Clock();
+
+        var sky, sunSphere;
+
+        init();
+        animate();
 
 
-    function init() {
-      renderer = new THREE.WebGLRenderer();
-      element = renderer.domElement;
-      container = document.getElementById('example');
-      container.appendChild(element);
 
-      effect = new THREE.StereoEffect(renderer);
 
-      scene = new THREE.Scene();
+        function init() {
+          renderer = new THREE.WebGLRenderer();
+          element = renderer.domElement;
+          container = document.getElementById('example');
+          container.appendChild(element);
+
+          effect = new THREE.StereoEffect(renderer);
+
+          scene = new THREE.Scene();
       // scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 
       camera = new THREE.PerspectiveCamera(90, 0, 0.001, 300);
@@ -80,40 +80,40 @@
         camera.position.x + 0.1,
         camera.position.y,
         camera.position.z
-      );
+        );
       controls.noZoom = true;
       controls.noPan = true;
 
-        var geometry = new THREE.PlaneGeometry( 100, 100 );
+      var geometry = new THREE.PlaneGeometry( 100, 100 );
 
-        var texture = new THREE.Texture( generateTexture() );
-        texture.needsUpdate = true;
+      var texture = new THREE.Texture( generateTexture() );
+      texture.needsUpdate = true;
 
-        for (var k=-15; k <15; k++){
+      for (var k=-15; k <15; k++){
 
         for (var j = 0; j < 15; j ++){
 
-        for ( var i = 0; i < 15; i ++ ) {
+          for ( var i = 0; i < 15; i ++ ) {
 
-          var material = new THREE.MeshBasicMaterial( {
-            color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
-            map: texture,
-            depthTest: false,
-            depthWrite: false,
-            transparent: true
-          } );
+            var material = new THREE.MeshBasicMaterial( {
+              color: new THREE.Color().setHSL( 0.3, 0.75, ( i / 15 ) * 0.4 + 0.1 ),
+              map: texture,
+              depthTest: false,
+              depthWrite: false,
+              transparent: true
+            } );
 
-          var mesh = new THREE.Mesh( geometry, material );
+            var mesh = new THREE.Mesh( geometry, material );
 
-          mesh.position.z = k*100;
+            mesh.position.z = k*100;
 
-          mesh.position.y = i * 0.25;
-          mesh.position.x = -95 + (100*-j);
-          mesh.rotation.x = - Math.PI / 2;
+            mesh.position.y = i * 0.25;
+            mesh.position.x = -95 + (100*-j);
+            mesh.rotation.x = - Math.PI / 2;
 
-          scene.add( mesh );
+            scene.add( mesh );
 
-        }
+          }
 
         //generate bomb
         bombCube = new THREE.BoxGeometry(5, 5, 5);
@@ -126,118 +126,123 @@
         fog = new THREE.Mesh( fogGeometry, fogMaterial  );
         fogMaterial.transparent=true;
         fogMaterial.opacity=.5
-        // fog.materials[0].opacity=.5
-
 
         fogGeometryTop = new THREE.CylinderGeometry(5,20,5,50);
-        fogMaterialTop = new THREE.MeshLambertMaterial({ color: 0xF07D7D });
+        fogMaterialTop = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
         fogTop = new THREE.Mesh( fogGeometryTop, fogMaterialTop  );
-        // fogTop.domElement.style.zIndex=5
-        // fogTop.fogMaterialTop.opacity=.5
+        fogMaterialTop.transparent=true;
+        fogMaterialTop.opacity=.5
+
+        fogGeometryBottom = new THREE.CylinderGeometry(5,20,5,50);
+        fogMaterialBottom = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
+        fogBottom = new THREE.Mesh( fogGeometryBottom, fogMaterialBottom  );
+        fogMaterialBottom.transparent=true;
+        fogMaterialBottom.opacity=.5
+
 
       }
     }
 
 
 
-        function generateTexture() {
+    function generateTexture() {
 
-        var canvas = document.createElement( 'canvas' );
-        canvas.width = 512;
-        canvas.height = 512;
+      var canvas = document.createElement( 'canvas' );
+      canvas.width = 512;
+      canvas.height = 512;
 
-        var context = canvas.getContext( '2d' );
+      var context = canvas.getContext( '2d' );
 
-        for ( var i = 0; i < 20000; i ++ ) {
+      for ( var i = 0; i < 20000; i ++ ) {
 
-          context.fillStyle = 'hsl(0,0%,' + ( Math.random() * 50 + 50 ) + '%)';
-          context.beginPath();
-          context.arc( Math.random() * canvas.width, Math.random() * canvas.height, Math.random() + 0.15, 0, Math.PI * 2, true );
-          context.fill();
-
-        }
-
-        context.globalAlpha = 0.075;
-        context.globalCompositeOperation = 'lighter';
-
-        return canvas;
+        context.fillStyle = 'hsl(0,0%,' + ( Math.random() * 50 + 50 ) + '%)';
+        context.beginPath();
+        context.arc( Math.random() * canvas.width, Math.random() * canvas.height, Math.random() + 0.15, 0, Math.PI * 2, true );
+        context.fill();
 
       }
 
+      context.globalAlpha = 0.075;
+      context.globalCompositeOperation = 'lighter';
 
-      var city  = new THREEx.ProceduralCity()
-      scene.add(city)
+      return canvas;
 
-      var light2 = new THREE.HemisphereLight( 0xfffff0, 0x101020, 1.25 );
-      light2.position.set( 0.75, 1, 0.25 );
-      scene.add( light2 );
-
-      var roadGeo = new THREE.BoxGeometry(50,0.1,1500);
-      var roadMat = new THREE.MeshBasicMaterial( { color: 0x383838 } );
-
-      var roadTexture = new THREE.MeshLambertMaterial({
-        map: THREE.ImageUtils.loadTexture('images/road1.jpg'),
-      });
-
-      var road = new THREE.Mesh( roadGeo, roadMat );
-      road.position.set(0,0,0);
-      scene.add( road );
-
-      var sidewalkGeo1 = new THREE.BoxGeometry(20,0.1,1500);
-      var sidewalkMat1 = new THREE.MeshBasicMaterial( { color: 0xCCCCCC } );
-      var sidewalk1 = new THREE.Mesh( sidewalkGeo1, sidewalkMat1);
-      sidewalk1.position.set(35,0,0);
-      scene.add(sidewalk1);
-
-      var sidewalkGeo2 = new THREE.BoxGeometry(20,0.1,1500);
-      var sidewalkMat2 = new THREE.MeshBasicMaterial( { color: 0xCCCCCC } );
-      var sidewalk2 = new THREE.Mesh( sidewalkGeo2, sidewalkMat2);
-      sidewalk2.position.set(-35,0,0);
-      scene.add(sidewalk2);
+    }
 
 
+    var city  = new THREEx.ProceduralCity()
+    scene.add(city)
+
+    var light2 = new THREE.HemisphereLight( 0xfffff0, 0x101020, 1.25 );
+    light2.position.set( 0.75, 1, 0.25 );
+    scene.add( light2 );
+
+    var roadGeo = new THREE.BoxGeometry(50,0.1,1500);
+    var roadMat = new THREE.MeshBasicMaterial( { color: 0x383838 } );
+
+    var roadTexture = new THREE.MeshLambertMaterial({
+      map: THREE.ImageUtils.loadTexture('images/road1.jpg'),
+    });
+
+    var road = new THREE.Mesh( roadGeo, roadMat );
+    road.position.set(0,0,0);
+    scene.add( road );
+
+    var sidewalkGeo1 = new THREE.BoxGeometry(20,0.1,1500);
+    var sidewalkMat1 = new THREE.MeshBasicMaterial( { color: 0xCCCCCC } );
+    var sidewalk1 = new THREE.Mesh( sidewalkGeo1, sidewalkMat1);
+    sidewalk1.position.set(35,0,0);
+    scene.add(sidewalk1);
+
+    var sidewalkGeo2 = new THREE.BoxGeometry(20,0.1,1500);
+    var sidewalkMat2 = new THREE.MeshBasicMaterial( { color: 0xCCCCCC } );
+    var sidewalk2 = new THREE.Mesh( sidewalkGeo2, sidewalkMat2);
+    sidewalk2.position.set(-35,0,0);
+    scene.add(sidewalk2);
 
 
 
 
 
-      function setOrientationControls(e) {
-        if (!e.alpha) {
-          return;
-        }
 
-        controls = new THREE.DeviceOrientationControls(camera, true);
-        controls.connect();
-        controls.update();
 
-        element.addEventListener('click', fullscreen, false);
-
-        window.removeEventListener('deviceorientation', setOrientationControls, true);
+    function setOrientationControls(e) {
+      if (!e.alpha) {
+        return;
       }
-      window.addEventListener('deviceorientation', setOrientationControls, true);
+
+      controls = new THREE.DeviceOrientationControls(camera, true);
+      controls.connect();
+      controls.update();
+
+      element.addEventListener('click', fullscreen, false);
+
+      window.removeEventListener('deviceorientation', setOrientationControls, true);
+    }
+    window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
-      light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
-      scene.add(light);
+    light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+    scene.add(light);
 
-      var texture = THREE.ImageUtils.loadTexture('checker.png');
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat = new THREE.Vector2(50, 50);
-      texture.anisotropy = renderer.getMaxAnisotropy();
+    var texture = THREE.ImageUtils.loadTexture('checker.png');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat = new THREE.Vector2(50, 50);
+    texture.anisotropy = renderer.getMaxAnisotropy();
 
-      var material = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        specular: 0xffffff,
-        shininess: 20,
-        shading: THREE.FlatShading,
-        map: texture
-      });
+    var material = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      specular: 0xffffff,
+      shininess: 20,
+      shading: THREE.FlatShading,
+      map: texture
+    });
 
-      var geometry = new THREE.PlaneGeometry(1000, 1000);
+    var geometry = new THREE.PlaneGeometry(1000, 1000);
 
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.x = -Math.PI / 2;
+    var mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.x = -Math.PI / 2;
       // scene.add(mesh);
 
       var rectLength = 10, rectWidth = 5;
@@ -285,18 +290,18 @@
       //set fog position
       fog.position.set(200, 120, 200);
       fogTop.position.set(200, 150, 200)
+      fogBottom.position.set(200, 90, 200)
       // fog.translateZ(10)
       // fog.rotation.y=45;
       // fogTop.rotation.y=45;
       scene.add( fog );
-
-
       scene.add( fogTop );
+      scene.add( fogBottom );
 
 
 
-    function animate(t) {
-      requestAnimationFrame(animate);
+      function animate(t) {
+        requestAnimationFrame(animate);
 
       // camera.position.x += 0.05;s
       // cube2.position.x += 1;
@@ -309,6 +314,10 @@
 
       fogTop.scale.z +=.05
       fogTop.scale.x +=.05
+
+      fogBottom.scale.z +=.05
+      fogBottom.scale.x +=.05
+
       bomb.position.y -= 4.8;
       // fog.radius +=.2
       // fog.scale.y +=.2
@@ -332,6 +341,6 @@
         container.webkitRequestFullscreen();
       }
     }
-  </script>
+    </script>
   </body>
-</html>
+  </html>
