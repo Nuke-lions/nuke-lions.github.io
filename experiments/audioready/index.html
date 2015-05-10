@@ -220,6 +220,18 @@
       mushroomCloudTopLight.position.set( 200, 180, 200 );
       scene.add( mushroomCloudTopLight );
 
+      var buildingGroundGeo = new THREE.BoxGeometry(100,1,1500)
+      var buildingGroundMat = new THREE.MeshBasicMaterial( { color: 0x1D1D1D } );
+      buildingGround = new THREE.Mesh( buildingGroundGeo, buildingGroundMat );
+      buildingGround.position.set(95,0,0);
+      scene.add( buildingGround );
+
+      var grassbaseGeo = new THREE.BoxGeometry(100,1,1500)
+      var gassbaseMat = new THREE.MeshBasicMaterial( { color: 0x002B00 } );
+      grassbase = new THREE.Mesh( grassbaseGeo, gassbaseMat );
+      grassbase.position.set(-95,0,0);
+      scene.add( grassbase );
+
       light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
       scene.add(light);
 
