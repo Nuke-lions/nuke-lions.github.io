@@ -141,14 +141,18 @@
 
 //nuclear winter
 geometry = new THREE.Geometry();
-for ( var i = 0; i < 20000; i ++ ) {
+// geometry = new THREE.SphereGeometry();
+
+
+for ( var i = 0; i < 2000; i ++ ) {
   var vertex = new THREE.Vector3();
+
   vertex.x = Math.random() * 2000 - 1000;
   vertex.y = Math.random() * 2000 - 1000;
   vertex.z = Math.random() * 2000 - 1000;
 
   geometry.vertices.push( vertex );
-
+  geometry.dynamic=true;
 }
 
 parameters = [
@@ -577,16 +581,46 @@ for (var k=-15; k <15; k++){
           // var nuke_light = new THREE.AmbientLight(0x404040)
           //       scene.add(nuke_light)
           renderer.setClearColor(0xffffff, 1)
-
-
                 // nuke_light.intensity += .5;
         }
 
-        if(Math.floor(timer)==79){
+        if(Math.floor(timer)==64){
           //add fallout particles
           for(var f in fallout){
             scene.add(fallout[f])
           }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
+
+      if(Math.floor(timer)==67){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
+
+            if(Math.floor(timer)==68){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
+        }
+
+            if(Math.floor(timer)==69){
+          //add fallout particles
+          for(var f in fallout){
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+            scene.add(fallout[f])
+          }
+          // scene.add(fallout[Math.random()*fallout.length])
         }
 
 
@@ -616,14 +650,17 @@ render_particles();
         // camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
         // camera.lookAt( scene.position );
 // light.intensity+=1
-for ( i = 0; i < fallout.length; i ++ ) {
-  var object = fallout[ i ];
-  if ( object instanceof THREE.PointCloud ) {
-    object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
-  }
-}
+    for ( i = 0; i < fallout.length; i ++ ) {
+      var object = fallout[ i ];
+      if ( object instanceof THREE.PointCloud ) {
+        // object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        object.rotation.z = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        object.rotation.x = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+      }
+    }
 
-for ( i = 0; i < materials.length; i ++ ) {
+      for ( i = 0; i < materials.length; i ++ ) {
 
           // color = parameters[i][0];
 
