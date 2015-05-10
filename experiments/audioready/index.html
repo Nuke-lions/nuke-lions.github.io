@@ -67,7 +67,9 @@
   var camera, scene, renderer;
   var effect, controls;
   var element, container;
-
+var first_time=50
+var second_time=51
+var third_time=52
   var cube2;
 
   var light;
@@ -156,8 +158,8 @@
 
 
        //generate bomb
-       bombCube = new THREE.BoxGeometry(50, 50, 50);
-       bombMaterial = new THREE.MeshBasicMaterial({color: 0xE041B9});
+       bombCube = new THREE.BoxGeometry(10, 10, 10);
+       bombMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
        bomb = new THREE.Mesh(bombCube, bombMaterial);
 
         // //generate fog
@@ -340,7 +342,7 @@
 
 
       // set bomb position
-      // bomb.position.set(200, 1000, 200);
+      bomb.position.set(200, 600, 200);
       // scene.add(bomb)
 
       //set fog position
@@ -372,8 +374,12 @@
             camera.position.y-=.2
           }
 
-
+        if(Math.floor(timer)==45){
+          scene.add(bomb)
         }
+        }
+
+
 
 
         // else if(timer > 47){
@@ -398,40 +404,44 @@
 
 
 
-       else if((timer>=47)&&(timer<62)){
+       else if((timer>=45)&&(timer<62)){
+        if(timer>45)
+        {
+          bomb.position.y -= 4.8;
+        }
 
-        if(Math.floor(timer)==48)
+        if(Math.floor(timer)==first_time)
         {
           scene.add( fogTop );
         }
-        else if(timer>48)
+        else if(timer>first_time)
         {
           fogTop.scale.z +=.07
           fogTop.scale.x +=.07
         }
 
-        if(Math.floor(timer)==49)
+        if(Math.floor(timer)==second_time)
         {
           scene.add( fog );
         }
-        if(timer>49)
+        if(timer>second_time)
         {
           fog.scale.z +=.05
           fog.scale.x +=.05
         }
 
-        if(Math.floor(timer)==50)
+        if(Math.floor(timer)==third_time)
         {
           scene.add( fogBottom );
         }
-        if(timer>50)
+        if(timer>third_time)
         {
           fogBottom.scale.z +=.02
           fogBottom.scale.x +=.02
         }
 
 
-        bomb.position.y -= 4.8;
+        // bomb.position.y -= 4.8;
 
 
         light.intensity += 0.01;
