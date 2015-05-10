@@ -493,6 +493,9 @@ for (var k=-15; k <15; k++){
 
 
         var timer = clock.getElapsedTime();
+
+        console.log(timer);
+
         if((timer < 47)&&(timer>5)){
           camera.position.x += .1
           camera.position.y=7
@@ -605,12 +608,10 @@ for (var k=-15; k <15; k++){
 
 
 
-
-      if (timer > 54){
-
-
+      if (timer > 51){
 
         light.intensity += 3;
+
         if (mushCloudBaseGrow === true){
           mushroomCloudBase.scale.y += .15
           mushroomCloudBase.scale.x += .005
