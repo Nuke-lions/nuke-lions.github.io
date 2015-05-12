@@ -71,6 +71,12 @@ header a{
   color: white;
   text-decoration: none;
 }
+.header-info{
+  background: white;
+  color: black;
+  opacity: 0.8;
+  padding: 15px;
+}
 .header-container{
   margin: auto;
 }
@@ -89,7 +95,7 @@ header a{
   text-align: center;
   margin: auto;
   width: 50%;
-  margin-top: 30%;
+  margin-top: 7%;
 }
 
 /********   navigation bar     ********/
