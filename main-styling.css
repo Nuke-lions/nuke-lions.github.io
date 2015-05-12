@@ -81,15 +81,15 @@ header a{
   float: right;
   padding-top: 20%;
 }
-.play-demo{
-  float: right;
-  padding-top: 25%
-}
 .play-demo a{
-  text-decoration: none;
+  display: none;
   background: white;
   color: navy;
   padding: 20px;
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  margin-top: 30%;
 }
 
 /********   navigation bar     ********/
@@ -134,5 +134,8 @@ header a{
     display: block;
     float: right;
     margin-right: 5%;
+  }
+  .play-demo a{
+    display: block;
   }
 }
