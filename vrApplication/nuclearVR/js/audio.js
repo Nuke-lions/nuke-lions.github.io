@@ -1,7 +1,7 @@
 var context;
 var source, sourceJs;
 var analyser;
-var url = 'nukes2.mp3';
+var url = 'audio/musical-score.mp3';
 var array = new Array();
 var boost = 0;
 
