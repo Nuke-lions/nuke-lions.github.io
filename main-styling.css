@@ -1,0 +1,32 @@
+*{
+  border: 1px solid blue;
+}
+body{
+  background: yellow;
+  margin: 0;
+  padding: 0;
+}
+
+/******************   HEADER     *****************/
+header{
+  background: red;
+  background: url('images/nuclear.jpg') no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 700px;
+  color: white;
+}
+/********   navigation bar     ********/
+.nav-bar{
+  float: right;
+}
+.nav-bar:after{
+  content: '';
+  display: table;
+  clear: both;
+}
+.nav-bar li{
+  display: inline-block;
+}
+/******************   MAIN     *****************/
+/******************   FOOTER     *****************/
