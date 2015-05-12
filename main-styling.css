@@ -16,9 +16,14 @@ header{
   min-height: 700px;
   color: white;
 }
+.header-container{
+  margin: auto;
+}
 /********   navigation bar     ********/
 .nav-bar{
   float: right;
+  text-align: right;
+  margin-top: 20px;
 }
 .nav-bar:after{
   content: '';
@@ -27,6 +32,7 @@ header{
 }
 .nav-bar li{
   display: inline-block;
+  padding: 10px 15px;
 }
 /******************   MAIN     *****************/
 /******************   FOOTER     *****************/
