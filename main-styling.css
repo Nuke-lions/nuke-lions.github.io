@@ -130,11 +130,16 @@ header a{
     display: block;
     width: 100%;
   }
-  .header-hidden-menu{
+/*  .header-hidden-menu{
     display: block;
     float: right;
     margin-right: 5%;
   }
+  .header-hidden-menu i{
+    color: white;
+    width: 20px;
+    height: 20px;
+  }*/
   .play-demo a{
     display: block;
   }
