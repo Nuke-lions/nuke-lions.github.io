@@ -2,7 +2,6 @@
   /*border: 1px solid blue;*/
 }
 body{
-  background: yellow;
   margin: 0;
   padding: 0;
 }
@@ -17,16 +16,36 @@ body{
   box-shadow: 0 -1px 10px rgba(0, 0, 0, .7);
   transform-style: inherit;
 }
+.slide:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right:0;
+}
+.slide:nth-child(2n) .title {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.slide:nth-child(2n+1) .title {
+  margin-left: auto;
+  margin-right: 0;
+}
+.slide, .slide:before {
+  background: 50% 50% / cover;
+}
+#header {
+  background: url('images/nuclear.jpg') no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 /******************   HEADER     *****************/
 header{
-  background: red;
-  background: url('images/nuclear.jpg') no-repeat;
-  background-size: cover;
-  width: 100%;
   min-height: 700px;
   color: white;
-  /*position: relative;*/
 }
 header h1{
   margin: 0;
@@ -64,13 +83,7 @@ header h1{
   display: none;
 }
 /******************   MAIN     *****************/
-main{
-  background: white;
-}
-.play-demo{
-  background: url('images/Sedan_Plowshare_Crater.jpg') no-repeat 100% 60%;
-  background-size: cover;
-}
+
 /******************   FOOTER     *****************/
 /******************   MOBILE     *****************/
 @media ( max-width : 400px ){
