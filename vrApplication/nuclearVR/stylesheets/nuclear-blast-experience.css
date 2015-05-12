@@ -1,0 +1,30 @@
+ body {
+    margin: 0px;
+    overflow: hidden;
+    background-color: #D8E7FF;
+    margin-left: 45%;
+    margin-top: 25%;
+    margin-right: 50%;
+  }
+  #example {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #D8E7FF;
+  }
+  #loadMsg {
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 3em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+  }
+  #goButton {
+    background-color: blue;
+  }
