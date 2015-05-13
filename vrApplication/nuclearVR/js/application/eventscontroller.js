@@ -617,7 +617,7 @@ for (var k=-15; k <15; k++){
 
     if ((endGame === false)  && (timer > 120)){
     endGame = true;
-    $("#loadMsg").append("<h1>THANKS FOR PLAYING :)</h1><br><button onclick='endButton()' id='goButton'>PLAY AGAIN!</button>");
+    $("#loadMsg").append("<button onclick='endButton()' id='goButton'>Experience Again</button>");
     }
 
 
