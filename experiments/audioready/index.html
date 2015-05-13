@@ -15,8 +15,12 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
   <style>
+  html{
+  }
   body {
-    margin: 0px;
+/*    background: url("images/blue_sky.jpg") no-repeat;
+    background-size: cover;
+*/    margin: 0px;
     overflow: hidden;
     background-color: #D8E7FF;
     margin-left: 45%;
@@ -80,6 +84,7 @@
   var fogMaterial, fogGeometry, fog;
 
   var sky, sunSphere;
+  var blue_sky;
 
   var mushroomCloudBase;
   var mushroomCloudTop;
@@ -121,6 +126,7 @@
 
 
     renderer = new THREE.WebGLRenderer();
+
     element = renderer.domElement;
     container = document.getElementById('example');
     container.appendChild(element);
@@ -133,6 +139,7 @@
     effect = new THREE.StereoEffect(renderer);
 
     scene = new THREE.Scene();
+
     scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 
     camera = new THREE.PerspectiveCamera(90, 0, 0.001, 1400);
@@ -225,6 +232,43 @@ for (var k=-15; k <15; k++){
     }
   }
 
+      //generate sky
+
+
+      // var skyGeometry = new THREE.SphereGeometry(3000, 60, 40);
+      // var uniforms = {
+      //   texture: { type: 't', value: loadTexture('images/blue_sky.jpg') }
+      // };
+
+      // var skyMaterial = new THREE.ShaderMaterial( {
+      //   uniforms:       uniforms,
+      //   vertexShader:   document.getElementById('sky-vertex').textContent,
+      //   fragmentShader: document.getElementById('sky-fragment').textContent
+      // });
+
+      // skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
+      // skyBox.scale.set(-1, 1, 1);
+      // skyBox.eulerOrder = 'XZY';
+      // skyBox.renderDepth = 1000.0;
+      // scene.add(skyBox);
+
+      // var skyImage = "images/blue_sky.jpg";
+      // var fullSky = [skyImage, skyImage, skyImage];
+      // var skyCube = THREE.ImageUtils.loadTextureCube(fullSky);
+
+
+      // var shader  = THREE.ShaderUtils.lib["cube"];
+      // shader.uniforms["tCube"].texture = skyCube;
+      // var skyMaterial = new THREE.MeshShaderMaterial({
+      //   fragmentShader  : shader.fragmentShader,
+      //   vertexShader  : shader.vertexShader,
+      //   uniforms  : shader.uniforms
+      // });
+
+      // skyboxMesh  = new THREE.Mesh( new THREE.CubeGeometry( 100000, 100000, 100000, 1, 1, 1, null, true ), skyMaterial );
+
+      // scene.addObject( skyboxMesh );
+
 
        //generate bomb
        bombCube = new THREE.BoxGeometry(10, 10, 10);
@@ -252,61 +296,35 @@ for (var k=-15; k <15; k++){
 
         //generate sky
 
-        // var skybg = new THREE.MeshLambertMaterial({
-        //   map: THREE.ImageUtils.loadTexture('images/sky1.jpeg'),
-        //   }),
-        // var skyGeo1 = new THREE.BoxGeometry(10000,1000,0.10);
-        // var skyMat1 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
-        // skyN = new THREE.Mesh( skyGeo1, skybg);
-        // skyN.position.set(0,10,1000);
-        // scene.add(skyN);
+        //         // Create a cube
+        var skyGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
+        var skyMaterial = new THREE.MeshLambertMaterial({
+            map: THREE.ImageUtils.loadTexture('images/blue_sky.jpg'),
+            // color: 0x527FBA,
+         });
 
-        // skyS = new THREE.Mesh( skyGeo1, skybg);
-        // skyS.position.set(0,10,-1000);
-        // // scene.add(skyS);
+        var skyCube = new THREE.Mesh(skyGeometry, skyMaterial);
+        scene.add(skyCube);
 
-        // var skyGeo2 = new THREE.BoxGeometry(0.1,1000,10000);
-        // // var skyMat2 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
-        // skyW = new THREE.Mesh( skyGeo2, skybg);
-        // skyW.position.set(-1000,0,10);
-        // // scene.add (skyW);
+        // // Set up the main camera
+        // // camera.position.z = 5;
 
-        // // var skyGeo2 = new THREE.BoxGeometry(0.1,1000,10000);
-        // // var skyMat2 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
-        // skyE = new THREE.Mesh( skyGeo2, skybg);
-        // skyE.position.set(1000,0,10);
-        // // scene.add (skyE);
+        // // Load the background texture
+        // var skyTexture = THREE.ImageUtils.loadTexture( 'images/blue_sky.jpg', THREE.UVMapping );
+        // var backgroundMesh = new THREE.Mesh(
+        //     new THREE.PlaneGeometry(2, 2, 0),
+        //     new THREE.MeshBasicMaterial({
+        //         map: skyTexture
+        //     }));
 
-          // Adding the car object
+        // backgroundMesh.material.depthTest = false;
+        // backgroundMesh.material.depthWrite = false;
 
-          // var carMaterial = new THREE.MeshLambertMaterial({
-          //   map: THREE.ImageUtils.loadTexture('images/gtare.jpg'),
-          //   colorAmbient: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-          //   colorDiffuse: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-          //   colorSpecular: [0.8999999761581421, 0.8999999761581421, 0.8999999761581421]
-          // })
-
-          // loader.load('car.js', function (geometry, materials) {
-
-          //   meshCar = new THREE.Mesh(
-          //     geometry,
-          //     carMaterial
-          //   );
-
-          //   meshCar.scale.x = 0.2;
-          //   meshCar.scale.y = 0.2;
-          //   meshCar.scale.z = 0.2;
-          //   meshCar.rotation.y = 0;
-
-          //   meshCar.position.set(0,3,-130)
-
-          //   meshCar.receiveShadow = true;
-          //   meshCar.castShadow = true;
-
-          //   scene.add(meshCar);
-          //   render();
-          // });
-
+        // // Create your background scene
+        // var backgroundScene = new THREE.Scene();
+        // var backgroundCamera = new THREE.Camera();
+        // backgroundScene.add(backgroundCamera );
+        // backgroundScene.add(backgroundMesh );
 
 
 
@@ -686,7 +704,6 @@ for (var k=-15; k <15; k++){
     $("#loadMsg").append("<h1>THANKS FOR PLAYING :)</h1><br><button onclick='endButton()' id='goButton'>PLAY AGAIN!</button>");
     }
 
-
       update(clock.getDelta());
       render(clock.getDelta());
     }
@@ -705,6 +722,7 @@ for (var k=-15; k <15; k++){
       } else if (container.webkitRequestFullscreen) {
         container.webkitRequestFullscreen();
       }
+      renderer.render(backgroundScene, backgroundCamera)
     }
 
 
