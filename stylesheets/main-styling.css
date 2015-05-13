@@ -37,12 +37,12 @@ body{
   background: 50% 50% / cover;
 }
 #header {
-  background: url('images/nuclear.jpg') no-repeat;
+  background: url('../images/nuclear.jpg') no-repeat;
   background-size: cover;
   background-attachment: fixed;
 }
 #slide-1{
-  background: url('images/plain-background.jpg') no-repeat;
+  background: url('../images/plain-background.jpg') no-repeat;
   background-size: cover;
   background-attachment: fixed;
 }
@@ -52,7 +52,7 @@ body{
   background-attachment: fixed;
 }
 #slide-3{
-  background: url('images/Sedan_Plowshare_Crater.jpg') no-repeat 100% 55%;
+  background: url('../images/Sedan_Plowshare_Crater.jpg') no-repeat 100% 55%;
   background-size: cover;
   background-attachment: fixed;
 }
