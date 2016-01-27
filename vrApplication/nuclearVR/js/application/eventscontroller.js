@@ -1,80 +1,71 @@
 var camera, scene, renderer;
-  var effect, controls;
-  var element, container;
-  var first_time=53
-  var second_time=52
-  var third_time=51
-  var cube2;
-  var fallout=[]
-  var light;
-  var ambiLight;
+var effect, controls;
+var element, container;
+var first_time=53
+var second_time=52
+var third_time=51
+var cube2;
+var fallout=[]
+var light;
+var ambiLight;
 
-  var clock = new THREE.Clock(false);
-  var bombCube, bombMaterial, bomb;
-  var fogMaterial, fogGeometry, fog;
+var clock = new THREE.Clock(false);
+var bombCube, bombMaterial, bomb;
+var fogMaterial, fogGeometry, fog;
 
-  var sky, sunSphere;
+var sky, sunSphere;
 
-  var mushroomCloudBase;
-  var mushroomCloudTop;
-  var mushCloudBaseGrow = true;
-  var mushroomCloudTopLight;
-  var loader = new THREE.JSONLoader();
-  var meshCar;
-  var endGame = false;
+var mushroomCloudBase;
+var mushroomCloudTop;
+var mushCloudBaseGrow = true;
+var mushroomCloudTopLight;
+var loader = new THREE.JSONLoader();
+var meshCar;
+var endGame = false;
 
-  var container, stats;
-  var camera, scene, particles, geometry, materials = [], parameters, i, h, color, sprite, size;
-  var mouseX = 0, mouseY = 0;
+var container, stats;
+var camera, scene, particles, geometry, materials = [], parameters, i, h, color, sprite, size;
+var mouseX = 0, mouseY = 0;
 
-  var windowHalfX = window.innerWidth / 2;
-  var windowHalfY = window.innerHeight / 2;
+var windowHalfX = window.innerWidth / 2;
+var windowHalfY = window.innerHeight / 2;
 
-  init();
-  animate();
+init();
+animate();
 
-  var dotsInterval = window.setInterval(function() {
-    if($('#loading_dots').text().length < 3) {
-      $('#loading_dots').text($('#loading_dots').text() + '.');
-    }
-    else {
-      $('#loading_dots').text('');
-    }
-  }, 500);
-
-  function startButton(){
-    clock.start();
-    source.start(0);
-    $('#goButton').remove();
+var dotsInterval = window.setInterval(function() {
+  if($('#loading_dots').text().length < 3) {
+    $('#loading_dots').text($('#loading_dots').text() + '.');
   }
+  else {
+    $('#loading_dots').text('');
+  }
+}, 500);
 
-  function init() {
+function startButton(){
+  clock.start();
+  source.start(0);
+  $('#goButton').remove();
+}
 
+function init() {
 
+  renderer = new THREE.WebGLRenderer();
+  element = renderer.domElement;
+  container = document.getElementById('example');
+  container.appendChild(element);
 
+  effect = new THREE.StereoEffect(renderer);
 
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
 
-    renderer = new THREE.WebGLRenderer();
-    element = renderer.domElement;
-    container = document.getElementById('example');
-    container.appendChild(element);
-
-
-
-
-
-
-    effect = new THREE.StereoEffect(renderer);
-
-    scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2( 0xd0e0f0, 0.0025 );
-
-    camera = new THREE.PerspectiveCamera(90, 0, 0.001, 1400);
+  camera = new THREE.PerspectiveCamera(90, 0, 0.001, 1400);
     // camera.position.set(-35, 10, 10);
 
-      camera.position.set(-35, 10, 10);
+    camera.position.set(-35, 10, 10);
 
-      scene.add(camera);
+    scene.add(camera);
 
 
 //nuclear winter
@@ -118,13 +109,6 @@ for ( i = 0; i < parameters.length; i ++ ) {
   // scene.add( particles );
 }
 
-
-
-//close nuclear winter
-
-
-
-
 controls = new THREE.OrbitControls(camera, element);
 controls.rotateUp(Math.PI / 4);
 controls.target.set(
@@ -165,87 +149,26 @@ for (var k=-15; k <15; k++){
        bombMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
        bomb = new THREE.Mesh(bombCube, bombMaterial);
 
-        // //generate fog
-        fogGeometry = new THREE.CylinderGeometry(20,10,5,50);
-        fogMaterial = new THREE.MeshLambertMaterial({ color: 0xC9C9C5});
-        fog = new THREE.Mesh( fogGeometry, fogMaterial  );
-        fogMaterial.transparent=true;
-        fogMaterial.opacity=.5
+      // //generate fog
+      fogGeometry = new THREE.CylinderGeometry(20,10,5,50);
+      fogMaterial = new THREE.MeshLambertMaterial({ color: 0xC9C9C5});
+      fog = new THREE.Mesh( fogGeometry, fogMaterial  );
+      fogMaterial.transparent=true;
+      fogMaterial.opacity=.5
 
-        fogGeometryTop = new THREE.CylinderGeometry(20,10,5,50);
-        fogMaterialTop = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
-        fogTop = new THREE.Mesh( fogGeometryTop, fogMaterialTop  );
-        fogMaterialTop.transparent=true;
-        fogMaterialTop.opacity=.5
+      fogGeometryTop = new THREE.CylinderGeometry(20,10,5,50);
+      fogMaterialTop = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
+      fogTop = new THREE.Mesh( fogGeometryTop, fogMaterialTop  );
+      fogMaterialTop.transparent=true;
+      fogMaterialTop.opacity=.5
 
-        fogGeometryBottom = new THREE.CylinderGeometry(20,10,5,50);
-        fogMaterialBottom = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
-        fogBottom = new THREE.Mesh( fogGeometryBottom, fogMaterialBottom  );
-        fogMaterialBottom.transparent=true;
-        fogMaterialBottom.opacity=.5
+      fogGeometryBottom = new THREE.CylinderGeometry(20,10,5,50);
+      fogMaterialBottom = new THREE.MeshLambertMaterial({ color: 0xC9C9C5 });
+      fogBottom = new THREE.Mesh( fogGeometryBottom, fogMaterialBottom  );
+      fogMaterialBottom.transparent=true;
+      fogMaterialBottom.opacity=.5
 
-        //generate sky
-
-        // var skybg = new THREE.MeshLambertMaterial({
-        //   map: THREE.ImageUtils.loadTexture('images/sky1.jpeg'),
-        //   }),
-        // var skyGeo1 = new THREE.BoxGeometry(10000,1000,0.10);
-        // var skyMat1 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
-        // skyN = new THREE.Mesh( skyGeo1, skybg);
-        // skyN.position.set(0,10,1000);
-        // scene.add(skyN);
-
-        // skyS = new THREE.Mesh( skyGeo1, skybg);
-        // skyS.position.set(0,10,-1000);
-        // // scene.add(skyS);
-
-        // var skyGeo2 = new THREE.BoxGeometry(0.1,1000,10000);
-        // // var skyMat2 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
-        // skyW = new THREE.Mesh( skyGeo2, skybg);
-        // skyW.position.set(-1000,0,10);
-        // // scene.add (skyW);
-
-        // // var skyGeo2 = new THREE.BoxGeometry(0.1,1000,10000);
-        // // var skyMat2 = new THREE.MeshLambertMaterial({ color: 0x0099FF });
-        // skyE = new THREE.Mesh( skyGeo2, skybg);
-        // skyE.position.set(1000,0,10);
-        // // scene.add (skyE);
-
-          // Adding the car object
-
-          // var carMaterial = new THREE.MeshLambertMaterial({
-          //   map: THREE.ImageUtils.loadTexture('images/gtare.jpg'),
-          //   colorAmbient: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-          //   colorDiffuse: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-          //   colorSpecular: [0.8999999761581421, 0.8999999761581421, 0.8999999761581421]
-          // })
-
-          // loader.load('car.js', function (geometry, materials) {
-
-          //   meshCar = new THREE.Mesh(
-          //     geometry,
-          //     carMaterial
-          //   );
-
-          //   meshCar.scale.x = 0.2;
-          //   meshCar.scale.y = 0.2;
-          //   meshCar.scale.z = 0.2;
-          //   meshCar.rotation.y = 0;
-
-          //   meshCar.position.set(0,3,-130)
-
-          //   meshCar.receiveShadow = true;
-          //   meshCar.castShadow = true;
-
-          //   scene.add(meshCar);
-          //   render();
-          // });
-
-
-
-
-
-      }
+}
 
       function generateTexture() {
         var canvas = document.createElement( 'canvas' );
@@ -345,10 +268,6 @@ for (var k=-15; k <15; k++){
 
       var geometry = new THREE.PlaneGeometry(1000, 1000);
 
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.x = -Math.PI / 2;
-      // scene.add(mesh);
-
       var rectLength = 10, rectWidth = 5;
 
       var darkMaterial = new THREE.MeshBasicMaterial( { color: 0xd99ff00, transparent:true } );
@@ -370,11 +289,11 @@ for (var k=-15; k <15; k++){
 
         window.removeEventListener('deviceorientation', setOrientationControls, true);
       }
+
       window.addEventListener('deviceorientation', setOrientationControls, true);
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
-
 
     }
 
@@ -391,14 +310,11 @@ for (var k=-15; k <15; k++){
 
     function update(dt) {
       resize();
-
       camera.updateProjectionMatrix();
-
       controls.update(dt);
     }
 
     function render(dt) {
-
       effect.render(scene, camera);
     }
 
@@ -411,86 +327,46 @@ for (var k=-15; k <15; k++){
       fog.position.set(200, 120, 200);
       fogTop.position.set(200, 150, 200)
       fogBottom.position.set(200, 90, 200)
-      // fog.translateZ(10)
-      // fog.rotation.y=45;
-      // fogTop.rotation.y=45;
-      // scene.add( fog );
-      // scene.add( fogTop );
-      // scene.add( fogBottom );
-
-
-
-
 
       function animate(t) {
         requestAnimationFrame(animate);
 
-
         var timer = clock.getElapsedTime();
 
-        console.log(timer);
-
         if((timer < 47)&&(timer>5)){
-          camera.position.x += .1
-          camera.position.y=7
-
-
+          camera.position.x += .1;
+          camera.position.y=7;
 
           if(Math.floor(camera.position.x)%2==0){
-            camera.position.y+=.2
-          }else {
-            camera.position.y-=.2
+            camera.position.y+=.2;
+          }
+          else {
+            camera.position.y-=.2;
           }
 
           if(Math.floor(timer)==45){
-            scene.add(bomb)
+            scene.add(bomb);
           }
         }
-
-
-
-
-        // else if(timer > 47){
-        //     // scene.add( fog );
-        //     // scene.add( fogTop );
-        //     // scene.add( fogBottom );
-        //   // bomb.position.set(200, 700, 200);
-        //   // scene.add(bomb)
-        // }
-
-       //  else if(timer>=47){
-       //   bomb.position.y -= 4.8;
-       //   fog.scale.z +=.05
-       //   fog.scale.x +=.05
-
-       //   fogTop.scale.z +=.05
-       //   fogTop.scale.x +=.05
-
-       //   fogBottom.scale.z +=.05
-       //   fogBottom.scale.x +=.05
-       // }
-
-
-
-       else if((timer>=45)&&(timer<62)){
-
-        camera.position.x -= 2
-        camera.position.y=7
-
-      }else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
+        else if((timer>=45)&&(timer<62)){
+          camera.position.x -= 2;
+          camera.position.y=7;
+        }
+        else if((clock.elapsedTime>=62)&&(clock.elapsedTime<64)){
         // light.intensity += 0.01;
-        camera.position.x -= 0
-        camera.position.y -= .01
+        camera.position.x -= 0;
+        camera.position.y -= .01;
+
         if(Math.floor(clock.elapsedTime*16)%2==0){
-          camera.position.y+=.9
-        }else {
-          camera.position.y-=.9
+          camera.position.y+=.9;
+        }
+        else{
+          camera.position.y-=.9;
         }
       } else {
         camera.position.y -= 0
         camera.position.x -= 0
       }
-
 
       // bomb and fog appearance
       if(timer>41)
@@ -504,13 +380,13 @@ for (var k=-15; k <15; k++){
       }
       else if(timer>first_time)
       {
-        fogTop.scale.z +=.07
-        fogTop.scale.x +=.07
+        fogTop.scale.z +=.07;
+        fogTop.scale.x +=.07;
       }
 
       if(Math.floor(timer)==second_time)
       {
-        scene.add( fog );
+        scene.add(fog);
       }
       if(timer>second_time)
       {
@@ -527,8 +403,6 @@ for (var k=-15; k <15; k++){
         fogBottom.scale.z +=.02
         fogBottom.scale.x +=.02
       }
-
-
 
       if (timer > 50){
 
@@ -570,9 +444,9 @@ for (var k=-15; k <15; k++){
           //       scene.add(nuke_light)
           renderer.setClearColor(0xffffff, 1)
                 // nuke_light.intensity += .5;
-        }
+              }
 
-        if(Math.floor(timer)==64){
+              if(Math.floor(timer)==64){
           //add fallout particles
           for(var f in fallout){
             scene.add(fallout[f])
@@ -580,7 +454,7 @@ for (var k=-15; k <15; k++){
           // scene.add(fallout[Math.random()*fallout.length])
         }
 
-      if(Math.floor(timer)==67){
+        if(Math.floor(timer)==67){
           //add fallout particles
           for(var f in fallout){
             scene.add(fallout[f])
@@ -589,7 +463,7 @@ for (var k=-15; k <15; k++){
           // scene.add(fallout[Math.random()*fallout.length])
         }
 
-            if(Math.floor(timer)==68){
+        if(Math.floor(timer)==68){
           //add fallout particles
           for(var f in fallout){
             scene.add(fallout[f])
@@ -599,7 +473,7 @@ for (var k=-15; k <15; k++){
           // scene.add(fallout[Math.random()*fallout.length])
         }
 
-            if(Math.floor(timer)==69){
+        if(Math.floor(timer)==69){
           //add fallout particles
           for(var f in fallout){
             scene.add(fallout[f])
@@ -611,63 +485,57 @@ for (var k=-15; k <15; k++){
           // scene.add(fallout[Math.random()*fallout.length])
         }
 
+        render_particles();
+
+        if ((endGame === false)  && (timer > 120)){
+          endGame = true;
+          $("#loadMsg").append("<button onclick='endButton()' id='goButton'>Experience Again</button>");
+        }
 
 
-      render_particles();
-
-    if ((endGame === false)  && (timer > 120)){
-    endGame = true;
-    $("#loadMsg").append("<button onclick='endButton()' id='goButton'>Experience Again</button>");
-    }
-
-
-      update(clock.getDelta());
-      render(clock.getDelta());
-    }
-
-    function endButton(){
-      location.reload();
-    }
-
-    function fullscreen() {
-      if (container.requestFullscreen) {
-        container.requestFullscreen();
-      } else if (container.msRequestFullscreen) {
-        container.msRequestFullscreen();
-      } else if (container.mozRequestFullScreen) {
-        container.mozRequestFullScreen();
-      } else if (container.webkitRequestFullscreen) {
-        container.webkitRequestFullscreen();
+        update(clock.getDelta());
+        render(clock.getDelta());
       }
-    }
 
+      function endButton(){
+        location.reload();
+      }
 
+      function fullscreen() {
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.msRequestFullscreen) {
+          container.msRequestFullscreen();
+        } else if (container.mozRequestFullScreen) {
+          container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        }
+      }
 
-    function render_particles() {
-      var time = Date.now() * 0.00005;
+      function render_particles() {
+        var time = Date.now() * 0.00005;
         // camera.position.x += ( mouseX - camera.position.x ) * 0.05;
         // camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
         // camera.lookAt( scene.position );
-// light.intensity+=1
-    for ( i = 0; i < fallout.length; i ++ ) {
-      var object = fallout[ i ];
-      if ( object instanceof THREE.PointCloud ) {
+        // light.intensity+=1
+        
+        for ( i = 0; i < fallout.length; i ++ ) {
+        var object = fallout[ i ];
+        if ( object instanceof THREE.PointCloud ) {
         // object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
         object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
         object.rotation.z = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
         object.rotation.x = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+        }
       }
-    }
 
       for ( i = 0; i < materials.length; i ++ ) {
-
           // color = parameters[i][0];
-
           // h = ( 360 * ( color[0] + time ) % 360 ) / 360;
           // materials[i].color.setHSL( h, color[1], color[2] );
 
         }
-
         // renderer.render( scene, camera );
-
       }
+      
